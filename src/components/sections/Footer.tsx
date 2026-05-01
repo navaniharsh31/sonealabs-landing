@@ -58,6 +58,7 @@ export default function Footer() {
           <span className="foot-col-label">Site</span>
           <div className="foot-nav">
             <a href="#receipts">work</a>
+            <a href="#showcases">showcase</a>
             <a href="#process">process</a>
             <a href="#services">services</a>
             <a href="#about">about</a>

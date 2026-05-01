@@ -5,66 +5,10 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import SplitChars from "@/components/SplitChars";
 
-// 4 visually distinct images, one per horizontal stripe of the headline.
-const HERO_IMAGES = [
-  "https://images.pexels.com/photos/18541712/pexels-photo-18541712.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/6985045/pexels-photo-6985045.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/7130548/pexels-photo-7130548.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/18541707/pexels-photo-18541707.jpeg?auto=compress&cs=tinysrgb&w=1600",
-];
-
 export default function Hero() {
   const heroRef = useRef<HTMLElement | null>(null);
-  const overlayRef = useRef<HTMLHeadingElement | null>(null);
-  const overlayMaskRef = useRef<HTMLDivElement | null>(null);
   const tickerRef = useRef<HTMLDivElement | null>(null);
   const bookRef = useRef<HTMLAnchorElement | null>(null);
-
-  // Preload all images, then apply as a 4-stripe multi-background.
-  useEffect(() => {
-    HERO_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-    if (overlayRef.current) {
-      overlayRef.current.style.backgroundImage = HERO_IMAGES.map(
-        (u) => `url('${u}')`
-      ).join(", ");
-    }
-  }, []);
-
-  // Mouse-tracked headline mask. Set vars on documentElement so they
-  // resolve regardless of where var() is read from, and use rAF batching
-  // so we don't write the same property multiple times per frame.
-  useEffect(() => {
-    const mask = overlayMaskRef.current;
-    if (!mask) return;
-
-    const setX = gsap.quickSetter(mask, "--mx", "px") as (v: number) => void;
-    const setY = gsap.quickSetter(mask, "--my", "px") as (v: number) => void;
-
-    let rafId = 0;
-    let pendingX = 0;
-    let pendingY = 0;
-    const flush = () => {
-      setX(pendingX);
-      setY(pendingY);
-      rafId = 0;
-    };
-
-    const onMove = (e: MouseEvent) => {
-      const rect = mask.getBoundingClientRect();
-      pendingX = e.clientX - rect.left;
-      pendingY = e.clientY - rect.top;
-      if (!rafId) rafId = requestAnimationFrame(flush);
-    };
-
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, []);
 
   // Magnetic book CTA
   useEffect(() => {
@@ -109,6 +53,10 @@ export default function Hero() {
           : Promise.resolve();
 
       ready.then(() => {
+        gsap.set(".hero .headline.base .char, .hero .headline.base .reveal", {
+          y: "138%",
+        });
+
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
         tl.to(".hero .nav", { opacity: 1, duration: 0.6, ease: "power2.out" }, 0)
           .to(
@@ -117,19 +65,9 @@ export default function Hero() {
             0.25
           )
           .to(
-            ".hero .headline.overlay .char",
-            { y: "0%", duration: 1.4, stagger: 0.025 },
-            0.25
-          )
-          .to(
             ".hero .headline.base .reveal",
             { y: "0%", duration: 1.1, ease: "power4.out" },
             "-=0.85"
-          )
-          .to(
-            ".hero .headline.overlay .reveal",
-            { y: "0%", duration: 1.1, ease: "power4.out" },
-            "<"
           )
           .to(
             ".ticker-wrap",
@@ -168,6 +106,7 @@ export default function Hero() {
         </div>
         <div className="nav-links">
           <a href="#receipts">work</a>
+          <a href="#showcases">showcase</a>
           <a href="#process">process</a>
           <a href="#book" className="book" ref={bookRef}>
             book ↗
@@ -184,16 +123,6 @@ export default function Hero() {
             <span className="reveal">people actually use.</span>
           </span>
         </h1>
-        <div className="overlay-mask" ref={overlayMaskRef} aria-hidden="true">
-          <h1 className="headline overlay" ref={overlayRef}>
-            <span className="line">
-              <SplitChars text="We build products" />
-            </span>
-            <span className="italic-line">
-              <span className="reveal">people actually use.</span>
-            </span>
-          </h1>
-        </div>
       </div>
 
       <div className="ticker-wrap">

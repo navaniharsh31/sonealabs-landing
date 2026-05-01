@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -8,18 +8,26 @@ import SplitChars from "@/components/SplitChars";
 import Billboard from "@/components/visuals/Billboard";
 import { PRODUCTS } from "@/components/data/products";
 
+const N = PRODUCTS.length;
+
 export default function Receipts() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const textTrackRef = useRef<HTMLDivElement | null>(null);
-  const visualTrackRef = useRef<HTMLDivElement | null>(null);
   const currentRef = useRef<HTMLSpanElement | null>(null);
   const fillRef = useRef<HTMLSpanElement | null>(null);
 
+  // 0 → N-1 as user scrolls through the pinned range
+  const [rawProgress, setRawProgress] = useState(0);
+
+  // Each panel fades in when it's the active one and out when it's not.
+  // dist = 0 → opacity 1, dist = 0.5 → opacity 0 (smooth crossfade)
+  const opacity = (i: number) =>
+    Math.max(0, 1 - Math.abs(rawProgress - i) * 2.4);
+
   useGSAP(
     () => {
-      // Intro reveal
+      // ── intro reveal ────────────────────────────────────
       gsap.set(".receipts-title .char", { y: "110%" });
       gsap
         .timeline({
@@ -51,60 +59,30 @@ export default function Receipts() {
           "-=0.5"
         );
 
-      // Sticky scroll: both tracks translate up
-      const text = textTrackRef.current;
-      const visual = visualTrackRef.current;
+      // ── pin + scrub ──────────────────────────────────────
       const scroller = scrollerRef.current;
       const stage = stageRef.current;
-      const N = PRODUCTS.length;
+      if (!scroller || !stage) return;
 
-      if (text && visual && scroller && stage) {
-        const distance = () => (N - 1) * window.innerHeight;
+      ScrollTrigger.create({
+        trigger: scroller,
+        pin: stage,
+        pinSpacing: true,
+        start: "top top",
+        end: () => `+=${(N - 1) * window.innerHeight}`,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          const raw = self.progress * (N - 1);
+          setRawProgress(raw);
 
-        gsap.to([text, visual], {
-          y: () => -distance(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: scroller,
-            pin: stage,
-            pinSpacing: true,
-            start: "top top",
-            end: () => "+=" + distance(),
-            scrub: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              const idx = Math.min(Math.floor(self.progress * N), N - 1);
-              if (currentRef.current) {
-                currentRef.current.textContent = String(idx + 1).padStart(2, "0");
-              }
-              if (fillRef.current) {
-                fillRef.current.style.width = `${self.progress * 100}%`;
-              }
-            },
-          },
-        });
-
-        // Subtle inner-parallax on each billboard mark
-        const marks = visual.querySelectorAll<HTMLElement>(".billboard-mark");
-        marks.forEach((mark, i) => {
-          gsap.fromTo(
-            mark,
-            { y: 50 },
-            {
-              y: -50,
-              ease: "none",
-              scrollTrigger: {
-                trigger: scroller,
-                start: () =>
-                  "top+=" + Math.max(0, (i - 0.5) * window.innerHeight) + " top",
-                end: () => "top+=" + (i + 0.5) * window.innerHeight + " top",
-                scrub: 1,
-                invalidateOnRefresh: true,
-              },
-            }
-          );
-        });
-      }
+          const idx = Math.min(Math.round(raw), N - 1);
+          if (currentRef.current)
+            currentRef.current.textContent = String(idx + 1).padStart(2, "0");
+          if (fillRef.current)
+            fillRef.current.style.width = `${self.progress * 100}%`;
+        },
+      });
 
       ScrollTrigger.refresh();
     },
@@ -113,6 +91,7 @@ export default function Receipts() {
 
   return (
     <section className="receipts" id="receipts" ref={sectionRef}>
+      {/* intro */}
       <div className="receipts-intro">
         <div className="eyebrow">/02 — recently shipped</div>
         <h2 className="receipts-title">
@@ -133,47 +112,61 @@ export default function Receipts() {
 
       <div className="rs-scroller" ref={scrollerRef}>
         <div className="rs-stage" ref={stageRef}>
+
+          {/* ── text pane: all panels stacked, crossfade via opacity ── */}
           <div className="rs-pane rs-text-pane">
-            <div className="rs-track" ref={textTrackRef}>
-              {PRODUCTS.map((p) => (
-                <div className="rs-panel" key={p.slug}>
-                  <div className="rs-meta">
-                    <span className="rs-num">{p.num}</span>
-                    <span className="rs-status">
-                      <span className={`dot${p.status.muted ? " muted" : ""}`} />
-                      {p.status.label}
-                    </span>
-                  </div>
-                  <h3
-                    className={`product-name${p.italic ? " italic" : ""}`}
-                  >
-                    <span className="line">{p.name}</span>
-                  </h3>
-                  <p className="product-tag">{p.tag}</p>
-                  <div className="product-stats">
-                    {p.stats.map((s) => (
-                      <div key={s.label}>
-                        <span className="stat-label">{s.label}</span>
-                        <span className="stat-value">{s.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <a href={p.link.href} className="product-link">
-                    {p.link.label}
-                  </a>
+            {PRODUCTS.map((p, i) => (
+              <div
+                className="rs-panel"
+                key={p.slug}
+                style={{
+                  opacity: opacity(i),
+                  pointerEvents: Math.round(rawProgress) === i ? "auto" : "none",
+                }}
+              >
+                <div className="rs-meta">
+                  <span className="rs-num">{p.num}</span>
+                  <span className="rs-status">
+                    <span className={`dot${p.status.muted ? " muted" : ""}`} />
+                    {p.status.label}
+                  </span>
                 </div>
-              ))}
-            </div>
+                <h3 className={`product-name${p.italic ? " italic" : ""}`}>
+                  <span className="line">{p.name}</span>
+                </h3>
+                <p className="product-tag">{p.tag}</p>
+                <div className="product-stats">
+                  {p.stats.map((s) => (
+                    <div key={s.label}>
+                      <span className="stat-label">{s.label}</span>
+                      <span className="stat-value">{s.value}</span>
+                    </div>
+                  ))}
+                </div>
+                <a href={p.link.href} className="product-link">
+                  {p.link.label}
+                </a>
+              </div>
+            ))}
           </div>
 
+          {/* ── visual pane: billboards stacked, crossfade via opacity ── */}
           <div className="rs-pane rs-visual-pane">
-            <div className="rs-track" ref={visualTrackRef}>
-              {PRODUCTS.map((p) => (
-                <Billboard key={p.slug} product={p} />
-              ))}
-            </div>
+            {PRODUCTS.map((p, i) => (
+              <div
+                className="rs-panel"
+                key={p.slug}
+                style={{
+                  opacity: opacity(i),
+                  pointerEvents: "none",
+                }}
+              >
+                <Billboard product={p} isActive={Math.round(rawProgress) === i} />
+              </div>
+            ))}
           </div>
 
+          {/* counter */}
           <div className="rs-counter">
             <span className="rs-counter-num">
               <span ref={currentRef}>01</span> / 04
@@ -182,6 +175,7 @@ export default function Receipts() {
               <span className="rs-progress-fill" ref={fillRef} />
             </span>
           </div>
+
         </div>
       </div>
     </section>

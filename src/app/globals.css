@@ -1,16 +1,5 @@
 @import "tailwindcss";
 
-@property --mx {
-  syntax: "<length>";
-  inherits: true;
-  initial-value: -9999px;
-}
-@property --my {
-  syntax: "<length>";
-  inherits: true;
-  initial-value: -9999px;
-}
-
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 html { color-scheme: only light; }
@@ -24,9 +13,6 @@ html { color-scheme: only light; }
   --lime: #C7F73B;
   --hairline: rgba(14, 13, 11, 0.10);
   --hairline-strong: rgba(14, 13, 11, 0.18);
-
-  --mx: -9999px;
-  --my: -9999px;
 
   --tijara:    #1F3A93;
   --qdash:     #C71F37;
@@ -127,34 +113,10 @@ body::before {
   font-weight: 400;
   font-variation-settings: "opsz" 144, "SOFT" 30, "wght" 420;
 }
-.headline.base { color: var(--ink); position: relative; z-index: 1; }
-
-.overlay-mask {
-  position: absolute;
-  top: 80px;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  pointer-events: none;
-  -webkit-mask-image: radial-gradient(circle at var(--mx) var(--my),
-    #000 0px, #000 180px, rgba(0,0,0,0) 300px);
-          mask-image: radial-gradient(circle at var(--mx) var(--my),
-    #000 0px, #000 180px, rgba(0,0,0,0) 300px);
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-}
-.headline.overlay {
-  color: transparent;
-  -webkit-background-clip: text;
-          background-clip: text;
-  background-color: var(--lime);
-  background-size: 25% 100%;
-  background-position:
-    0% 0%,
-    33.33% 0%,
-    66.67% 0%,
-    100% 0%;
-  background-repeat: no-repeat;
+.headline.base {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
 }
 
 .line {
@@ -164,7 +126,7 @@ body::before {
 }
 .char {
   display: inline-block;
-  transform: translateY(110%);
+  transform: translateY(138%);
   will-change: transform;
 }
 .space { display: inline-block; width: 0.3em; }
@@ -174,10 +136,12 @@ body::before {
   overflow: hidden;
   padding-bottom: 0.28em;
   margin-top: 0.05em;
+  margin-left: -0.09em;
+  padding-left: 0.09em;
 }
 .italic-line .reveal {
   display: block;
-  transform: translateY(110%);
+  transform: translateY(138%);
   font-style: italic;
   font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
   will-change: transform;
@@ -306,22 +270,19 @@ body::before {
   overflow: hidden;
 }
 
-.rs-track {
-  position: absolute;
-  top: 0; left: 0; width: 100%;
-  will-change: transform;
-}
-
+/* All panels are absolutely stacked; only opacity changes on scroll */
 .rs-panel {
-  height: 100vh;
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  will-change: opacity;
 }
 
 .rs-text-pane .rs-panel {
   align-items: flex-start;
-  padding: 80px 0 80px;
+  padding: 80px 0;
 }
 
 .rs-visual-pane .rs-panel {
@@ -409,13 +370,33 @@ body::before {
   transform: translate(2px, -2px);
 }
 
+.billboard-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .billboard-frame {
   position: relative;
   width: 100%;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   max-height: calc(100vh - 140px);
   border-radius: 4px;
   overflow: hidden;
+}
+.billboard-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.22) 0%,
+    transparent 45%
+  );
+  pointer-events: none;
 }
 .billboard-frame::before {
   content: '';
@@ -455,7 +436,13 @@ body::before {
   letter-spacing: -0.04em;
   font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 700;
   margin-bottom: -0.1em;
-  will-change: transform;
+}
+.billboard-mark--active {
+  animation: billboard-breathe 5s ease-in-out infinite;
+}
+@keyframes billboard-breathe {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
 }
 .billboard-foot {
   display: flex;
@@ -521,6 +508,162 @@ body::before {
   .product-tag { margin-bottom: 16px; font-size: 14px; }
   .product-stats { margin-bottom: 14px; }
 }
+
+/* ============================================
+   SHOWCASES
+   ============================================ */
+.showcases {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.showcases-intro {
+  height: 100vh;
+  padding: 0 clamp(20px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 0.5px solid var(--hairline-strong);
+}
+
+.showcases-title {
+  font-family: var(--font-fraunces);
+  font-size: clamp(56px, 12vw, 200px);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "wght" 420;
+  color: var(--ink);
+  margin-top: 32px;
+}
+.showcases-title .it {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
+}
+
+.showcases-sub {
+  font-family: var(--font-fraunces);
+  font-size: clamp(16px, 1.2vw, 19px);
+  color: var(--ink-soft);
+  margin-top: 36px;
+  max-width: 540px;
+  line-height: 1.5;
+  opacity: 0;
+}
+
+/* ─────────────────────────────────────────────────
+   GSAP-pin stack (CSS sticky breaks under Lenis).
+   .showcases-scroller  — provides scroll space.
+   .showcases-stage     — pinned by GSAP for (N-1)vh.
+   .showcase-slide      — absolute, fills stage.
+                          slides 1…N start at y=100%
+                          and are driven to y=0 by
+                          ScrollTrigger scrub.
+   ─────────────────────────────────────────────────*/
+.showcases-scroller {
+  position: relative;
+  width: 100%;
+}
+
+.showcases-stage {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.showcase-slide {
+  position: absolute;
+  inset: 0;
+}
+/* Keep slides 1+ off-screen until GSAP takes over */
+.showcase-slide:not(:first-child) {
+  transform: translateY(100%);
+}
+
+/* Frame fills the slide with a small inset */
+.showcase-frame-wrap {
+  position: absolute;
+  inset: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bone-warm);
+  border: 0.5px solid var(--hairline-strong);
+}
+
+.showcase-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+  display: block;
+}
+
+/* Frosted info bar at the bottom of each frame */
+.showcase-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(14px, 1.4vw, 20px) clamp(20px, 2vw, 32px);
+  background: rgba(236, 227, 207, 0.88);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-top: 0.5px solid var(--hairline);
+}
+
+.showcase-info-left {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.showcase-info-name {
+  font-family: var(--font-fraunces);
+  font-size: clamp(20px, 2vw, 30px);
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 460;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.showcase-info-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
+.showcase-info-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.showcase-info-year { letter-spacing: 0.04em; }
+
+.showcase-info-link {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--ink);
+  padding-bottom: 1px;
+  cursor: none;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s ease;
+}
+.showcase-info-link:hover { opacity: 0.6; }
 
 /* ============================================
    PROCESS
@@ -1478,12 +1621,10 @@ body::before {
   html, body { cursor: auto; }
   .cursor, .cursor-ring { display: none; }
   .nav-links a, .product-link { cursor: pointer; }
-  .overlay-mask { display: none; }
 }
 
 @media (max-width: 640px) {
   .hero-text { padding: 48px 0; }
-  .overlay-mask { top: 48px; }
   .ticker { gap: 40px; font-size: 11px; }
   .nav-links { gap: 18px; font-size: 11px; }
 }
