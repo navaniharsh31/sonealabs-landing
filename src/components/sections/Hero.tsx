@@ -70,6 +70,11 @@ export default function Hero() {
             "-=0.85"
           )
           .to(
+            ".hero-sub",
+            { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" },
+            "-=0.6"
+          )
+          .to(
             ".ticker-wrap",
             { opacity: 1, duration: 0.6, ease: "power2.out" },
             "-=0.6"
@@ -106,10 +111,10 @@ export default function Hero() {
         </div>
         <div className="nav-links">
           <a href="#receipts">work</a>
-          <a href="#showcases">showcase</a>
           <a href="#process">process</a>
+          <a href="#services">services</a>
           <a href="#book" className="book" ref={bookRef}>
-            book ↗
+            start your build ↗
           </a>
         </div>
       </nav>
@@ -123,6 +128,11 @@ export default function Hero() {
             <span className="reveal">people actually use.</span>
           </span>
         </h1>
+        <p className="hero-sub">
+          We take your idea to a live MVP with paying users in 28 days. Fixed
+          scope, senior execution, and a guarantee that actually means
+          something.
+        </p>
       </div>
 
       <div className="ticker-wrap">

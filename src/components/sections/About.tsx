@@ -63,22 +63,22 @@ export default function About() {
         <div className="man-stack">
           <div className="man-line">
             <span className="line">
-              <SplitChars text="Not a 50-person agency." />
+              <SplitChars text="Most agencies bill for 'discovery'." />
             </span>
           </div>
           <div className="man-line">
             <span className="line">
-              <SplitChars text="Not a freelance pool." />
+              <SplitChars text="We bill for delivery." />
             </span>
           </div>
           <div className="man-line italic">
             <span className="line">
-              <SplitChars text="A tight team" />
+              <SplitChars text="Just senior engineers" />
             </span>
           </div>
           <div className="man-line italic">
             <span className="line">
-              <SplitChars text="that ships." />
+              <SplitChars text="shipping code." />
             </span>
           </div>
         </div>

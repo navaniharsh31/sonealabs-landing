@@ -94,17 +94,18 @@ export default function Book() {
         <div className="eyebrow">/06 — book</div>
         <h2 className="book-title">
           <span className="line">
-            <SplitChars text="Let's" />
+            <SplitChars text="Build your" />
           </span>
           <span className="line">
             <span className="it">
-              <SplitChars text="build something." />
+              <SplitChars text="version one." />
             </span>
           </span>
         </h2>
         <p className="book-sub">
-          60 minutes on Cal.com. No deck required, no pitch needed — just bring
-          the problem and we&apos;ll figure out if it&apos;s a fit.
+          Book a 60-minute scoping call. We&apos;ll strip your idea to its essence
+          and give you a fixed-price quote with a 28-day delivery date. No
+          deck required—just the problem.
         </p>
         <div className="book-cta-wrap">
           <a
@@ -112,7 +113,7 @@ export default function Book() {
             className="book-cta-big"
             ref={ctaRef}
           >
-            Book on Cal.com <span className="arrow">↗</span>
+            Secure your launch date <span className="arrow">↗</span>
           </a>
         </div>
         <p className="book-alt">
