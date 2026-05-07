@@ -6,22 +6,6 @@ import { useGSAP } from "@gsap/react";
 
 export default function Footer() {
   const ref = useRef<HTMLElement | null>(null);
-  const [time, setTime] = useState("--:--");
-
-  useEffect(() => {
-    const tick = () => {
-      const now = new Date();
-      const ist = new Date(
-        now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-      );
-      const h = String(ist.getHours()).padStart(2, "0");
-      const m = String(ist.getMinutes()).padStart(2, "0");
-      setTime(`${h}:${m}`);
-    };
-    tick();
-    const id = window.setInterval(tick, 1000);
-    return () => window.clearInterval(id);
-  }, []);
 
   useGSAP(() => {
     if (!ref.current) return;
@@ -51,7 +35,7 @@ export default function Footer() {
           </div>
           <p className="foot-tag">
             An engineering studio shipping its own products and building yours.
-            Mumbai · Dubai · open to wherever the founders are.
+            Open to wherever the founders are.
           </p>
         </div>
         <div>
@@ -68,10 +52,10 @@ export default function Footer() {
         <div>
           <span className="foot-col-label">Elsewhere</span>
           <div className="foot-social">
-            <a href="https://x.com">x</a>
-            <a href="https://linkedin.com">linkedin</a>
-            <a href="https://github.com">github</a>
-            <a href="mailto:hi@sonealabs.com">email ↗</a>
+            <a href="https://x.com/navaniharsh31" target="_blank" rel="noopener noreferrer">x</a>
+            <a href="https://www.linkedin.com/in/harshnavani/" target="_blank" rel="noopener noreferrer">linkedin</a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">github</a>
+            <a href="mailto:harsh@sonealabs.com">email ↗</a>
           </div>
         </div>
       </div>
@@ -81,7 +65,7 @@ export default function Footer() {
           <span>we ship, of course</span>
         </span>
         <span className="right">
-          <span>mumbai · {time} ist</span>
+          <span>engineering studio</span>
           <span>v1.0</span>
         </span>
       </div>

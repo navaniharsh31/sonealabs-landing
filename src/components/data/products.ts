@@ -22,7 +22,7 @@ export const PRODUCTS: Product[] = [
     name: "tijara",
     tag: "Trade management SaaS for global import-export SMEs. Multi-corridor invoicing, FTA compliance, customs documentation.",
     stats: [
-      { label: "corridor", value: "India ↔ UAE" },
+      { label: "market", value: "Global Trade" },
       { label: "stack", value: "Next.js · Supabase" },
       { label: "status", value: "first paying users" },
     ],
@@ -30,7 +30,7 @@ export const PRODUCTS: Product[] = [
     billboard: {
       meta: { left: "Tijara · 2025", right: "v1.0" },
       mark: "tijara.",
-      foot: { left: "Trade\nSaaS", right: "Mumbai\n→ Dubai" },
+      foot: { left: "Trade\nSaaS", right: "Global\nPlatform" },
     },
   },
   {
@@ -38,9 +38,9 @@ export const PRODUCTS: Product[] = [
     num: "02 / 04",
     status: { label: "live" },
     name: "qdash",
-    tag: "Cashless ordering for nightlife venues. POS-integrated, RBI-compliant payment splitting, QR ticketing with HMAC tokens.",
+    tag: "Cashless ordering for nightlife venues. POS-integrated, payment splitting, QR ticketing with HMAC tokens.",
     stats: [
-      { label: "market", value: "Mumbai bars + clubs" },
+      { label: "market", value: "Hospitality venues" },
       { label: "stack", value: "NestJS · Cloudflare" },
       { label: "status", value: "venues onboarding" },
     ],

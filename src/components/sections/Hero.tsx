@@ -114,7 +114,7 @@ export default function Hero() {
           <a href="#process">process</a>
           <a href="#services">services</a>
           <a href="#book" className="book" ref={bookRef}>
-            start your build ↗
+            start <span className="hide-mobile">your build</span> ↗
           </a>
         </div>
       </nav>
@@ -139,12 +139,12 @@ export default function Hero() {
         <div className="ticker" ref={tickerRef}>
           <span className="ticker-item">
             <span className="dot" />
-            tijara — live · gcc trade saas
+            tijara — live · global trade saas
           </span>
           <span className="sep" />
           <span className="ticker-item">
             <span className="dot" />
-            qdash — live · mumbai nightlife
+            qdash — live · hospitality os
           </span>
           <span className="sep" />
           <span className="ticker-item muted">

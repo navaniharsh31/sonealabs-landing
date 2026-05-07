@@ -117,7 +117,7 @@ export default function Book() {
           </a>
         </div>
         <p className="book-alt">
-          Or email <a href="mailto:hi@sonealabs.com">hi@sonealabs.com</a> ·
+          Or email <a href="mailto:harsh@sonealabs.com">harsh@sonealabs.com</a> ·
           response within 24h
         </p>
       </div>

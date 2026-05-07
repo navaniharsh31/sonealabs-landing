@@ -71,16 +71,6 @@ export default function About() {
               <SplitChars text="We bill for delivery." />
             </span>
           </div>
-          <div className="man-line italic">
-            <span className="line">
-              <SplitChars text="Just senior engineers" />
-            </span>
-          </div>
-          <div className="man-line italic">
-            <span className="line">
-              <SplitChars text="shipping code." />
-            </span>
-          </div>
         </div>
       </div>
 
@@ -89,7 +79,7 @@ export default function About() {
           <div className="founder-photo" aria-label="Founder portrait placeholder">
             <span className="photo-meta tl">/founder · 2026</span>
             <span className="monogram">H</span>
-            <span className="photo-meta br">mumbai · ist</span>
+            <span className="photo-meta br">engineering studio</span>
           </div>
           <div className="founder-bio">
             <span className="eyebrow">/the founder</span>
@@ -108,7 +98,7 @@ export default function About() {
             <div className="founder-meta">
               <div>
                 <span className="lbl">based</span>
-                <span className="val">Mumbai → Dubai</span>
+                <span className="val">available worldwide</span>
               </div>
               <div>
                 <span className="lbl">stack</span>
@@ -121,7 +111,7 @@ export default function About() {
               <div>
                 <span className="lbl">find me</span>
                 <span className="val">
-                  <a href="#">linkedin</a> · <a href="#">x</a>
+                  <a href="https://www.linkedin.com/in/harshnavani/" target="_blank" rel="noopener noreferrer">linkedin</a> · <a href="https://x.com/navaniharsh31" target="_blank" rel="noopener noreferrer">x</a>
                 </span>
               </div>
             </div>

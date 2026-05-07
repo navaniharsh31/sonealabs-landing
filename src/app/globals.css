@@ -30,6 +30,8 @@ html, body {
   font-variation-settings: "opsz" 14, "SOFT" 50;
   overflow-x: hidden;
   cursor: none;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 ::-webkit-scrollbar { width: 6px; }
@@ -75,6 +77,7 @@ body::before {
   font-weight: 500;
   letter-spacing: -0.02em;
   font-variation-settings: "opsz" 14, "SOFT" 30;
+  white-space: nowrap;
 }
 .logo .it { font-style: italic; font-weight: 400; }
 
@@ -118,7 +121,7 @@ body::before {
 
 .headline {
   font-family: var(--font-fraunces);
-  font-size: clamp(48px, 10.5vw, 168px);
+  font-size: clamp(40px, 10.5vw, 168px);
   line-height: 0.92;
   letter-spacing: -0.045em;
   font-weight: 400;
@@ -140,7 +143,7 @@ body::before {
   transform: translateY(138%);
   will-change: transform;
 }
-.space { display: inline-block; width: 0.3em; }
+.space { display: inline-block; }
 
 .italic-line {
   display: block;
@@ -237,7 +240,7 @@ body::before {
 
 .receipts-title {
   font-family: var(--font-fraunces);
-  font-size: clamp(56px, 12vw, 200px);
+  font-size: clamp(40px, 12vw, 200px);
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-weight: 400;
@@ -320,7 +323,7 @@ body::before {
 
 .product-name {
   font-family: var(--font-fraunces);
-  font-size: clamp(56px, 8vw, 120px);
+  font-size: clamp(40px, 8vw, 120px);
   line-height: 0.95;
   letter-spacing: -0.04em;
   font-weight: 400;
@@ -505,15 +508,21 @@ body::before {
 @media (max-width: 900px) {
   .rs-stage {
     grid-template-columns: 1fr;
-    gap: 24px;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0;
+    height: 100dvh;
   }
-  .rs-pane { height: auto; }
-  .rs-text-pane { height: 50vh; }
-  .rs-visual-pane { height: 50vh; }
-  .rs-text-pane .rs-panel { height: 50vh; padding: 30px 0 10px; }
-  .rs-visual-pane .rs-panel { height: 50vh; padding: 0 0 30px; }
-  .rs-counter { bottom: 12px; }
+  .rs-pane { height: 50dvh; }
+  .rs-text-pane .rs-panel { 
+    height: 50dvh; 
+    padding: 60px 0 20px; 
+    justify-content: flex-start;
+  }
+  .rs-visual-pane .rs-panel { 
+    height: 50dvh; 
+    padding: 20px 0 80px; 
+  }
+  .rs-counter { bottom: 20px; }
   .product-name { font-size: clamp(40px, 11vw, 72px); margin-bottom: 16px; }
   .rs-meta { margin-bottom: 16px; }
   .product-tag { margin-bottom: 16px; font-size: 14px; }
@@ -540,7 +549,7 @@ body::before {
 
 .showcases-title {
   font-family: var(--font-fraunces);
-  font-size: clamp(56px, 12vw, 200px);
+  font-size: clamp(40px, 12vw, 200px);
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-weight: 400;
@@ -696,7 +705,7 @@ body::before {
 
 .process-title {
   font-family: var(--font-fraunces);
-  font-size: clamp(56px, 12vw, 200px);
+  font-size: clamp(40px, 12vw, 200px);
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-weight: 400;
@@ -1071,7 +1080,7 @@ body::before {
 
 .services-title {
   font-family: var(--font-fraunces);
-  font-size: clamp(56px, 12vw, 200px);
+  font-size: clamp(40px, 12vw, 200px);
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-weight: 400;
@@ -1273,8 +1282,8 @@ body::before {
 }
 
 .manifesto {
-  min-height: 100vh;
-  padding: 100px clamp(20px, 5vw, 64px) 80px;
+  height: 100vh;
+  padding: 64px clamp(20px, 5vw, 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1282,12 +1291,12 @@ body::before {
 }
 
 .man-stack {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .man-line {
   font-family: var(--font-fraunces);
-  font-size: clamp(44px, 9vw, 144px);
+  font-size: clamp(32px, 9vw, 144px);
   line-height: 1.05;
   letter-spacing: -0.04em;
   font-weight: 400;
@@ -1428,8 +1437,8 @@ body::before {
 }
 
 .book-stage {
-  min-height: 100vh;
-  padding: 120px clamp(20px, 5vw, 64px) 100px;
+  height: 100vh;
+  padding: 64px clamp(20px, 5vw, 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1438,13 +1447,13 @@ body::before {
 
 .book-title {
   font-family: var(--font-fraunces);
-  font-size: clamp(64px, 14vw, 240px);
+  font-size: clamp(40px, 10vw, 160px);
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-weight: 400;
   font-variation-settings: "opsz" 144, "SOFT" 30, "wght" 420;
   color: var(--ink);
-  margin-top: 32px;
+  margin-top: 24px;
 }
 .book-title .it {
   font-style: italic;
@@ -1464,15 +1473,15 @@ body::before {
 
 .book-sub {
   font-family: var(--font-fraunces);
-  font-size: clamp(18px, 1.4vw, 22px);
+  font-size: clamp(16px, 1.4vw, 20px);
   color: var(--ink-soft);
-  margin-top: 36px;
+  margin-top: 24px;
   max-width: 540px;
   line-height: 1.5;
   opacity: 0;
 }
 
-.book-cta-wrap { margin-top: 60px; opacity: 0; }
+.book-cta-wrap { margin-top: 40px; opacity: 0; }
 
 .book-cta-big {
   display: inline-flex;
@@ -1637,7 +1646,14 @@ body::before {
 @media (max-width: 640px) {
   .hero-text { padding: 48px 0; }
   .ticker { gap: 40px; font-size: 11px; }
-  .nav-links { gap: 18px; font-size: 11px; }
+  .nav { align-items: center; }
+  .nav-links { gap: 14px; font-size: 10px; }
+  .hide-mobile { display: none; }
+}
+
+@media (max-width: 380px) {
+  .nav-links { gap: 10px; font-size: 9.5px; }
+  .logo { font-size: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

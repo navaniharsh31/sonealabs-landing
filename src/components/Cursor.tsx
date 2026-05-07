@@ -45,7 +45,15 @@ export default function Cursor() {
     const enterHero = expand(80);
     const enterCta = expand(96);
 
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        gsap.to([dot, ring], { opacity: 1, duration: 0.4 });
+        firstMove = false;
+      }
+    };
+
     document.addEventListener("mousemove", onMove);
+    window.addEventListener("pageshow", onPageShow);
 
     const links = document.querySelectorAll<HTMLElement>(
       "a, .book, .product-link"
@@ -65,6 +73,7 @@ export default function Cursor() {
 
     return () => {
       document.removeEventListener("mousemove", onMove);
+      window.removeEventListener("pageshow", onPageShow);
       links.forEach((el) => {
         el.removeEventListener("mouseenter", enterLink);
         el.removeEventListener("mouseleave", leaveLink);

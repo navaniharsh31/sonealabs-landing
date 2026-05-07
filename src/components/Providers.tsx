@@ -15,6 +15,13 @@ export default function Providers({ children }: { children: ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
+    // Clear scroll memory to prevent browser from jumping before GSAP is ready
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    ScrollTrigger.clearScrollMemory();
+    ScrollTrigger.refresh();
+
     function raf(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
@@ -25,9 +32,22 @@ export default function Providers({ children }: { children: ReactNode }) {
     const onScroll = () => ScrollTrigger.update();
     lenis?.on("scroll", onScroll);
 
+    // BFCache fix: refresh ScrollTrigger when page is restored from cache
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setTimeout(() => {
+          lenisRef.current?.lenis?.start();
+          ScrollTrigger.refresh();
+          lenisRef.current?.lenis?.scrollTo(window.scrollY, { immediate: true });
+        }, 100);
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+
     return () => {
       gsap.ticker.remove(raf);
       lenis?.off("scroll", onScroll);
+      window.removeEventListener("pageshow", onPageShow);
     };
   }, []);
 
