@@ -1526,6 +1526,117 @@ body::before {
 }
 
 /* ============================================
+   FAQ
+   ============================================ */
+.faq-section {
+  position: relative;
+  z-index: 3;
+  border-top: 0.5px solid var(--hairline-strong);
+}
+
+.faq-container {
+  min-height: 100vh;
+  padding: 100px clamp(20px, 5vw, 64px) 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.faq-intro {
+  margin-bottom: 80px;
+}
+
+.faq-title {
+  font-family: var(--font-fraunces);
+  font-size: clamp(40px, 12vw, 200px);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "wght" 420;
+  color: var(--ink);
+  margin-top: 32px;
+}
+.faq-title .it {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 400;
+}
+.faq-title .line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.05em;
+}
+.faq-title .char {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 0.5px solid var(--hairline-strong);
+}
+
+.faq-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 5vw, 80px);
+  padding: 48px 0;
+  border-bottom: 0.5px solid var(--hairline-strong);
+  align-items: start;
+}
+
+.faq-q-wrap {
+  display: flex;
+  gap: 24px;
+  align-items: baseline;
+}
+
+.faq-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+.faq-q {
+  font-family: var(--font-fraunces);
+  font-size: clamp(24px, 2.8vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  font-weight: 400;
+  font-variation-settings: "opsz" 36, "SOFT" 30, "wght" 460;
+}
+
+.faq-a-wrap {
+  max-width: 520px;
+}
+
+.faq-a {
+  font-family: var(--font-fraunces);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 900px) {
+  .faq-item {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 40px 0;
+  }
+  .faq-q-wrap {
+    gap: 16px;
+  }
+  .faq-num {
+    margin-top: 4px;
+  }
+}
+
+/* ============================================
    FOOTER
    ============================================ */
 .footer {

@@ -5,6 +5,7 @@ import Process from "@/components/sections/Process";
 import Services from "@/components/sections/Services";
 import About from "@/components/sections/About";
 import Book from "@/components/sections/Book";
+import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <Services />
       <About />
       <Book />
+      <FAQ />
       <Footer />
     </>
   );
