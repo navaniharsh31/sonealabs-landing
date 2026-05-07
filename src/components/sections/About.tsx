@@ -88,19 +88,17 @@ export default function About() {
         <div className="founder-grid">
           <div className="founder-photo" aria-label="Founder portrait placeholder">
             <span className="photo-meta tl">/founder · 2026</span>
-            <span className="monogram">G</span>
+            <span className="monogram">H</span>
             <span className="photo-meta br">mumbai · ist</span>
           </div>
           <div className="founder-bio">
             <span className="eyebrow">/the founder</span>
-            <h2 className="founder-name">Gaurav.</h2>
+            <h2 className="founder-name">Harsh.</h2>
             <p className="founder-role">
-              Founder, SoneaLabs. Mumbai-based, Dubai-adjacent.
+              Founder, SoneaLabs.
             </p>
             <p className="founder-text">
-              Computer Science MS from Northeastern. Five years building B2B
-              health and fintech software before going independent in late 2024
-              to build SoneaLabs.
+              
             </p>
             <p className="founder-text">
               Now leads the engineering team behind Tijara, QDash, RespawnIRL,
