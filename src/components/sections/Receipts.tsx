@@ -84,7 +84,6 @@ export default function Receipts() {
         },
       });
 
-      ScrollTrigger.refresh();
     },
     { scope: sectionRef }
   );

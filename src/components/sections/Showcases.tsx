@@ -106,7 +106,6 @@ export default function Showcases() {
         },
       });
 
-      ScrollTrigger.refresh();
     },
     { scope: sectionRef }
   );

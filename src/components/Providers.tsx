@@ -15,12 +15,14 @@ export default function Providers({ children }: { children: ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
-    // Clear scroll memory to prevent browser from jumping before GSAP is ready
+    // Clear scroll memory, then do ONE deferred refresh after all children
+    // have mounted and set up their ScrollTriggers. Immediate refresh here
+    // would fire before children exist, causing pin-spacer DOM conflicts.
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
     ScrollTrigger.clearScrollMemory();
-    ScrollTrigger.refresh();
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
 
     function raf(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
@@ -45,6 +47,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     window.addEventListener("pageshow", onPageShow);
 
     return () => {
+      clearTimeout(refreshTimer);
       gsap.ticker.remove(raf);
       lenis?.off("scroll", onScroll);
       window.removeEventListener("pageshow", onPageShow);
