@@ -15,52 +15,39 @@ export default function Providers({ children }: { children: ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
-    // Clear scroll memory, then do ONE deferred refresh after all children
-    // have mounted and set up their ScrollTriggers. Immediate refresh here
-    // would fire before children exist, causing pin-spacer DOM conflicts.
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-    ScrollTrigger.clearScrollMemory();
-    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+    const lenis = lenisRef.current?.lenis;
 
+    // Drive Lenis from GSAP's single RAF loop
     function raf(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
-    const lenis = lenisRef.current?.lenis;
-    const onScroll = () => ScrollTrigger.update();
-    lenis?.on("scroll", onScroll);
+    // Keep ScrollTrigger in sync with Lenis scroll position
+    lenis?.on("scroll", ScrollTrigger.update);
 
-    // BFCache fix: refresh ScrollTrigger when page is restored from cache
+    // BFCache: re-init on back/forward nav
     const onPageShow = (e: PageTransitionEvent) => {
       if (e.persisted) {
         setTimeout(() => {
           lenisRef.current?.lenis?.start();
           ScrollTrigger.refresh();
-          lenisRef.current?.lenis?.scrollTo(window.scrollY, { immediate: true });
         }, 100);
       }
     };
     window.addEventListener("pageshow", onPageShow);
 
     return () => {
-      clearTimeout(refreshTimer);
       gsap.ticker.remove(raf);
-      lenis?.off("scroll", onScroll);
+      lenis?.off("scroll", ScrollTrigger.update);
       window.removeEventListener("pageshow", onPageShow);
     };
   }, []);
 
   return (
     <JotaiProvider>
-      <ReactLenis
-        root
-        ref={lenisRef}
-        options={{ autoRaf: false, lerp: 0.1 }}
-      >
+      <ReactLenis root ref={lenisRef} options={{ autoRaf: false, lerp: 0.1 }}>
         {children}
       </ReactLenis>
     </JotaiProvider>

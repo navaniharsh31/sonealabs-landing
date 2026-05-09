@@ -68,6 +68,7 @@ export default function Receipts() {
         trigger: scroller,
         pin: stage,
         pinSpacing: true,
+        pinReparent: true,
         start: "top top",
         end: () => `+=${(N - 1) * window.innerHeight}`,
         scrub: 1,
@@ -84,6 +85,7 @@ export default function Receipts() {
         },
       });
 
+      ScrollTrigger.refresh();
     },
     { scope: sectionRef }
   );

@@ -72,6 +72,7 @@ export default function Process() {
           trigger: pin,
           pin: true,
           pinSpacing: true,
+          pinReparent: true,
           start: "top top",
           end: () => "+=" + distance(),
           scrub: 1,
