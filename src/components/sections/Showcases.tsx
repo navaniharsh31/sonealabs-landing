@@ -97,7 +97,6 @@ export default function Showcases() {
         trigger: scroller,
         pin: stage,
         pinSpacing: true,
-        pinReparent: true,
         start: "top top",
         end: () => `+=${(N - 1) * window.innerHeight}`,
         scrub: 1,
@@ -109,7 +108,7 @@ export default function Showcases() {
 
       ScrollTrigger.refresh();
     },
-    { scope: sectionRef }
+    { scope: sectionRef, revertOnUpdate: true }
   );
 
   return (

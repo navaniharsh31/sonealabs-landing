@@ -24,7 +24,7 @@ export default function Footer() {
         },
       }
     );
-  }, []);
+  }, { scope: ref, revertOnUpdate: true });
 
   return (
     <footer className="footer" ref={ref}>

@@ -55,7 +55,7 @@ export default function Services() {
         },
       });
     },
-    { scope: sectionRef }
+    { scope: sectionRef, revertOnUpdate: true }
   );
 
   return (

@@ -100,7 +100,7 @@ export default function Hero() {
         }
       });
     },
-    { scope: heroRef }
+    { scope: heroRef, revertOnUpdate: true }
   );
 
   return (

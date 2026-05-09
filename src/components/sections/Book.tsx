@@ -51,7 +51,7 @@ export default function Book() {
           "-=0.4"
         );
     },
-    { scope: sectionRef }
+    { scope: sectionRef, revertOnUpdate: true }
   );
 
   // Magnetic big CTA

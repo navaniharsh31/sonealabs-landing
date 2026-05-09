@@ -53,7 +53,7 @@ export default function About() {
         },
       });
     },
-    { scope: sectionRef }
+    { scope: sectionRef, revertOnUpdate: true }
   );
 
   return (
